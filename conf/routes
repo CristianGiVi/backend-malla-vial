@@ -1,0 +1,36 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                           controllers.HomeController.index()
+
+GET     /pepe/:id                   controllers.HomeController.index2(id: Long)
+
+# Rutas para Segmentos
+
+POST    /segment/create                 controllers.SegmentController.createSegment(request:Request)
+
+GET     /segment                        controllers.SegmentController.getAllSegments()
+
+GET     /segment/:id                    controllers.SegmentController.getSegmentById(id: Long)
+
+PUT     /segment/update/:id             controllers.SegmentController.updateSegment(id: Long, request:Request)
+
+DELETE  /segment/delete/:id             controllers.SegmentController.deleteSegment(id: Long)
+
+
+# Rutas para Calzadas
+POST    /roadway/create                 controllers.RoadwayController.createRoadway(id: Long, length: Double)
+GET     /roadway                        controllers.RoadwayController.getAllRoadways()
+GET     /roadway/:id                    controllers.RoadwayController.getRoadwayById(id: Long)
+PUT     /roadway/update/:id             controllers.RoadwayController.updateRoadway(id: Long, length: Double)
+DELETE  /roadway/delete/:id             controllers.RoadwayController.deleteRoadway(id: Long)
+
+
+# Rutas para Bordillos
+POST    /curb/create                    controllers.CurbController.createCurb(id: Long, length: Double)
+GET     /curb                           controllers.CurbController.getAllCurbs()
+GET     /curb/:id                       controllers.CurbController.getCurbById(id: Long)
+PUT     /curb/update/:id                controllers.CurbController.updateCurb(id: Long, length: Double)
+DELETE  /curb/delete/:id                controllers.CurbController.deleteCurb(id: Long)
