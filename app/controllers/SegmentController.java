@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 public class SegmentController extends Controller {
 
     private final SegmentService segmentService = new SegmentService();
@@ -103,12 +104,10 @@ public class SegmentController extends Controller {
         return deleted ? ok("Segmento eliminado con exito") : notFound("Segmento no encontrado");
     }
 
-    // Obtener todos los detalles de un segmento
+    // Obtener todos los detalles de los segmentos
 
-    public Result getSegmentdetails(Long segmentId) {
-        Optional<HashMap<String, Object>> segmentDetailsOpt = segmentService.getSegmentdetails(segmentId);
-
-        return segmentDetailsOpt.map(segmentDetails -> ok(Json.toJson(segmentDetails)))
-                .orElseGet(() -> notFound("Segmento no encontrado"));
+    public Result getAllSegmentDetails() {
+        List<HashMap<String, Object>> segmentsWithDetails = segmentService.getAllSegmentDetails();
+        return ok(Json.toJson(segmentsWithDetails));
     }
 }

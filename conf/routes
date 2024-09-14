@@ -12,7 +12,7 @@ PUT     /segment/update/:id             controllers.SegmentController.updateSegm
 
 DELETE  /segment/delete/:id             controllers.SegmentController.deleteSegment(id: Long)
 
-GET     /segmentdetails/:id             controllers.SegmentController.getSegmentdetails(id: Long)
+GET     /segmentdetails                  controllers.SegmentController.getAllSegmentDetails()
 
 
 

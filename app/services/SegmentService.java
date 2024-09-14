@@ -8,9 +8,10 @@ import repository.SegmentRepository;
 import repository.CurbRepository;
 import repository.RoadwayRepository;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class SegmentService {
 
@@ -65,26 +66,22 @@ public class SegmentService {
                 .orElse(0L);
     }
 
-    // Obtener los datos de un segmento, junto con la cantidad de bordillos y calzadas que tiene
+    // Obtener los datos de los segmentos, junto con la cantidad de bordillos y calzadas que tiene
 
-    public Optional<HashMap<String, Object>> getSegmentdetails(Long segmentId) {
+    public List<HashMap<String, Object>> getAllSegmentDetails() {
+        List<Segment> segments = SegmentRepository.getSegments();
 
-            Optional<Segment> segmentOpt = getSegmentById(segmentId);
-            if (!segmentOpt.isPresent()) {
-                return Optional.empty();
-            }
-
-            List<Roadway> roadways = RoadwayRepository.findRoadways(segmentId);
-            List<Curb> curbs = CurbRepository.findCurbs(segmentId);
-
-
+        return segments.stream().map(segment -> {
             HashMap<String, Object> segmentDetails = new HashMap<>();
+            List<Roadway> roadways = RoadwayRepository.findRoadways(segment.getSegmentId());
+            List<Curb> curbs = CurbRepository.findCurbs(segment.getSegmentId());
 
-            segmentDetails.put("segment", segmentOpt.get());
+            segmentDetails.put("segment", segment);
             segmentDetails.put("amountRoadways", roadways.size());
             segmentDetails.put("amountCurbs", curbs.size());
 
-            return Optional.of(segmentDetails);
-        }
+            return segmentDetails;
+        }).collect(Collectors.toList());
+    }
 
 }
