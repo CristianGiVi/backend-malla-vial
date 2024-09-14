@@ -1,11 +1,4 @@
-# Routes
-# This file defines all application routes (Higher priority routes first)
-# ~~~~
 
-# An example controller showing a sample home page
-GET     /                           controllers.HomeController.index()
-
-GET     /pepe/:id                   controllers.HomeController.index2(id: Long)
 
 # Rutas para Segmentos
 
@@ -19,18 +12,33 @@ PUT     /segment/update/:id             controllers.SegmentController.updateSegm
 
 DELETE  /segment/delete/:id             controllers.SegmentController.deleteSegment(id: Long)
 
+GET     /segmentdetails/:id             controllers.SegmentController.getSegmentdetails(id: Long)
+
+
 
 # Rutas para Calzadas
-POST    /roadway/create                 controllers.RoadwayController.createRoadway(id: Long, length: Double)
+POST    /roadway/create                 controllers.RoadwayController.createRoadway(request:Request)
+
 GET     /roadway                        controllers.RoadwayController.getAllRoadways()
+
 GET     /roadway/:id                    controllers.RoadwayController.getRoadwayById(id: Long)
-PUT     /roadway/update/:id             controllers.RoadwayController.updateRoadway(id: Long, length: Double)
+
+PUT     /roadway/update/:id             controllers.RoadwayController.updateRoadway(id: Long, request:Request)
+
 DELETE  /roadway/delete/:id             controllers.RoadwayController.deleteRoadway(id: Long)
+
+GET     /roadwaybysegment/:id           controllers.RoadwayController.getRoadwaysBySegmentId(id: Long)
 
 
 # Rutas para Bordillos
-POST    /curb/create                    controllers.CurbController.createCurb(id: Long, length: Double)
+POST    /curb/create                    controllers.CurbController.createCurb(request:Request)
+
 GET     /curb                           controllers.CurbController.getAllCurbs()
+
 GET     /curb/:id                       controllers.CurbController.getCurbById(id: Long)
-PUT     /curb/update/:id                controllers.CurbController.updateCurb(id: Long, length: Double)
+
+PUT     /curb/update/:id                controllers.CurbController.updateCurb(id: Long, request:Request)
+
 DELETE  /curb/delete/:id                controllers.CurbController.deleteCurb(id: Long)
+
+GET     /curbsegment/:id                controllers.CurbController.getCurbsBySegmentId(id: Long)

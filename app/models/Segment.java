@@ -2,20 +2,24 @@ package models;
 
 public class Segment {
 
+    private static Long counter = 0L; 
+
     private Long id;
     private Long segmentId;
     private Double length;
     private String address;
 
-    // Constructor
-    public Segment(Long id, Long segmentId, Double length, String address) {
-        this.id = id;
+    public Segment(Long segmentId, Double length, String address) {
+        this.id = generateId();
         this.segmentId = segmentId;
         this.length = length;
         this.address = address;
     }
 
-    // Getters and Setters
+    private Long generateId() {
+        return ++counter;
+    }
+
     public Long getId() {
         return id;
     }

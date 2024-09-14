@@ -5,6 +5,7 @@ import services.SegmentService;
 import play.mvc.*;
 import play.libs.Json;
 
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,99 +14,101 @@ public class SegmentController extends Controller {
 
     private final SegmentService segmentService = new SegmentService();
 
-
     /* 
-    
-    {
-        "id": 1,
-        "segmentId": 101,
-        "length": 250.5,
-        "address": "Carrera 16"
-    }
-    
+        {
+            "segmentId": 101,
+            "length": 250.5,
+            "address": "Carrera 16"
+        }
     */
 
     // Crear un nuevo segmento
-    public Result createSegment(Http.Request request) {
-        Segment newSegment;
-        try {
-            newSegment = Json.fromJson(request.body().asJson(), Segment.class);
 
-        // Validar los campos del segmento
+    public Result createSegment(Http.Request request) {
+        
+        try {
+             Segment newSegment = Json.fromJson(request.body().asJson(), Segment.class);
+
         if (newSegment.getSegmentId() == null || newSegment.getSegmentId() <= 0) {
-            return badRequest("Invalid segmentId: must be a positive number.");
+            return badRequest("Atributo segmentId invalido");
         }
         if (newSegment.getLength() == null || newSegment.getLength() <= 0) {
-            return badRequest("Invalid length: must be a positive number.");
+            return badRequest("Atributo length invalido");
         }
         if (newSegment.getAddress() == null || newSegment.getAddress().isEmpty()) {
-            return badRequest("Invalid address: must not be empty.");
+            return badRequest("Atributo address invalido");
         }
 
             segmentService.createSegment(newSegment);
-            return ok("Segment created successfully");
+            return ok("Segmento creado con exito");
         } catch (Exception e) {
-            return badRequest("Invalid JSON format: Unable to parse request body.");
+            return badRequest("Error al crear el segmento");
         }
     }
 
 
     // Obtener todos los segmentos
+
     public Result getAllSegments() {
         List<Segment> segments = segmentService.getAllSegments();
         return ok(Json.toJson(segments));
     }
 
-    // Obtener un segmento por ID
+    // Obtener un segmento por su id relativa
+
     public Result getSegmentById(Long id) {
         Optional<Segment> segment = segmentService.getSegmentById(id);
         return segment.map(value -> ok(Json.toJson(value))) 
-                .orElseGet(() -> notFound("Segment not found"));
+                .orElseGet(() -> notFound("Segmento no encontrado"));
     }
-
-
 
     /*
-    {
-        "id": 1,
-        "segmentId": 101,
-        "length": 30.0,
-        "address": "456 Elm Street"
-    }
+        {
+            "segmentId": 101,
+            "length": 30.0,
+            "address": "456 Elm Street"
+        }
     */
 
-
     // Actualizar un segmento
-    public Result updateSegment(Long id, Http.Request request) {
 
-        // Intentar mapear el JSON a un objeto Segment
-        Segment updatedSegment;
+    public Result updateSegment(Long id, Http.Request request) {
         try {
-            updatedSegment = Json.fromJson(request.body().asJson(), Segment.class);
+            Segment updatedSegment = Json.fromJson(request.body().asJson(), Segment.class);
 
             if (updatedSegment.getSegmentId() == null || updatedSegment.getSegmentId() <= 0) {
-                return badRequest("Invalid segmentId: must be a positive number.");
+                return badRequest("Atributo segmentId invalido.");
             }
             if (updatedSegment.getLength() == null || updatedSegment.getLength() <= 0) {
-                return badRequest("Invalid length: must be a positive number.");
+                return badRequest("Atributo length invalido");
             }
             if (updatedSegment.getAddress() == null || updatedSegment.getAddress().isEmpty()) {
-                return badRequest("Invalid address: must not be empty.");
+                return badRequest("Atributo address invalido");
             }
 
-
             Optional<Segment> updated = segmentService.updateSegment(id, updatedSegment);
-            return updated.map(value -> ok("Segment updated successfully"))
-                .orElseGet(() -> notFound("Segment not found"));
+
+            return updated.map(value -> ok("Segmento editado con exito"))
+                .orElseGet(() -> notFound("Segmento no encontrado"));
         } catch (Exception e) {
-            return badRequest("Invalid JSON format: Unable to parse request body.");
+            return badRequest("Error al editar el segmento.");
         }
 
     }
 
     // Eliminar un segmento
+
     public Result deleteSegment(Long id) {
         boolean deleted = segmentService.deleteSegment(id);
-        return deleted ? ok("Segment deleted successfully") : notFound("Segment not found");
+        return deleted ? ok("Segmento eliminado con exito") : notFound("Segmento no encontrado");
+    }
+
+    // Obtener todos los detalles de un segmento
+
+    public Result getSegmentdetails(Long segmentId) {
+        Optional<HashMap<String, Object>> segmentDetailsOpt = segmentService.getSegmentdetails(segmentId);
+
+        return segmentDetailsOpt.map(segmentDetails -> ok(Json.toJson(segmentDetails)))
+                .orElseGet(() -> notFound("Segmento no encontrado"));
     }
 }

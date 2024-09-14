@@ -2,16 +2,33 @@ package models;
 
 public class Roadway {
 
-    private Long id;
-    private Double length;
+    private static Long counter = 0L; 
 
-    // Constructor
-    public Roadway(Long id, Double length) {
-        this.id = id;
+    private Long id;
+    private Long roadwayId;
+    private Double length;
+    private Long segmentId;
+
+    public Roadway(Long roadwayId, Double length, Long segmentId) {
+        this.id = generateId();
+        this.roadwayId = roadwayId;
         this.length = length;
+        this.segmentId = segmentId;
     }
 
-    // Getters and Setters
+    private Long generateId() {
+        return ++counter;
+    }
+
+    public Long getSegmentId() {
+        return segmentId;
+    }
+
+    public void setSegmentId(Long segmentId) {
+        this.segmentId = segmentId;
+    }
+
+
     public Long getId() {
         return id;
     }
@@ -26,5 +43,13 @@ public class Roadway {
 
     public void setLength(Double length) {
         this.length = length;
+    }
+
+    public Long getRoadwayId() {
+        return roadwayId;
+    }
+
+    public void setRoadwayId(Long roadwayId) {
+        this.roadwayId = roadwayId;
     }
 }
