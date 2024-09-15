@@ -51,10 +51,20 @@ public class SegmentService {
 
     // Eliminar un segmento
 
-    public boolean deleteSegment(Long segmentId) {
+public boolean deleteSegment(Long segmentId) {
+    
+    Optional<Segment> segmentOpt = getSegmentById(segmentId);
+    if (segmentOpt.isPresent()) {
         Long id = getIdBySegmentId(segmentId);
-        return SegmentRepository.getSegments().removeIf(segment -> segment.getId().equals(id));
+        List<Curb> curbs = CurbRepository.findCurbs(id);
+        List<Roadway> roadways = RoadwayRepository.findRoadways(id);
+        curbs.forEach(CurbRepository::removeCurb);
+        roadways.forEach(RoadwayRepository::removeRoadway);
+        return SegmentRepository.removeSegment(segmentOpt.get());
     }
+
+    return false;
+}
 
     // Obtener ID principal a partir de su id relativa
 
@@ -73,8 +83,8 @@ public class SegmentService {
 
         return segments.stream().map(segment -> {
             HashMap<String, Object> segmentDetails = new HashMap<>();
-            List<Roadway> roadways = RoadwayRepository.findRoadways(segment.getSegmentId());
-            List<Curb> curbs = CurbRepository.findCurbs(segment.getSegmentId());
+            List<Roadway> roadways = RoadwayRepository.findRoadways(segment.getId());
+            List<Curb> curbs = CurbRepository.findCurbs(segment.getId());
 
             segmentDetails.put("segment", segment);
             segmentDetails.put("amountRoadways", roadways.size());
@@ -82,6 +92,28 @@ public class SegmentService {
 
             return segmentDetails;
         }).collect(Collectors.toList());
+    }
+
+    // Obtener los datos de un segmento, junto con la cantidad de bordillos y calzadas que tiene
+
+     public Optional<HashMap<String, Object>> getSegmentdetails(Long segmentId) {
+        Optional<Segment> segmentOpt = getSegmentById(segmentId);
+
+        if (!segmentOpt.isPresent()) {
+            return Optional.empty();
+        }
+
+        Long id = segmentOpt.get().getId();
+
+        List<Roadway> roadways = RoadwayRepository.findRoadways(id);
+        List<Curb> curbs = CurbRepository.findCurbs(id);
+        HashMap<String, Object> segmentDetails = new HashMap<>();
+
+        segmentDetails.put("segment", segmentOpt.get());
+        segmentDetails.put("amountRoadways", roadways.size());
+        segmentDetails.put("amountCurbs", curbs.size());
+
+        return Optional.of(segmentDetails);
     }
 
 }

@@ -2,7 +2,7 @@ package models;
 
 public class Roadway {
 
-    private static Long counter = 0L; 
+    private static Long roadwayCounter = 0L; 
 
     private Long id;
     private Long roadwayId;
@@ -17,7 +17,7 @@ public class Roadway {
     }
 
     private Long generateId() {
-        return ++counter;
+        return ++roadwayCounter;
     }
 
     public Long getSegmentId() {

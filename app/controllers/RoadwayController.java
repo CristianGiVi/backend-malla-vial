@@ -15,7 +15,8 @@ public class RoadwayController extends Controller {
      /* 
         {
             "roadwayId": 101,
-            "length": 250.5
+            "length": 250.5,
+            "segmentId": 1
         }
     */
 

@@ -104,10 +104,19 @@ public class SegmentController extends Controller {
         return deleted ? ok("Segmento eliminado con exito") : notFound("Segmento no encontrado");
     }
 
-    // Obtener todos los detalles de los segmentos
+    // Obtener todos los detalles de los segmentos con la cantidad de calzadas y bordillos
 
     public Result getAllSegmentDetails() {
         List<HashMap<String, Object>> segmentsWithDetails = segmentService.getAllSegmentDetails();
         return ok(Json.toJson(segmentsWithDetails));
+    }
+
+    // Obtener detalles de un segmento con la cantidad de calzadas y bordillos
+
+    public Result getSegmentdetails(Long segmentId) {
+        Optional<HashMap<String, Object>> segmentDetailsOpt = segmentService.getSegmentdetails(segmentId);
+
+        return segmentDetailsOpt.map(segmentDetails -> ok(Json.toJson(segmentDetails)))
+                .orElseGet(() -> notFound("Segmento no encontrado"));
     }
 }

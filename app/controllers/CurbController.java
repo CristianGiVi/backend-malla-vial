@@ -14,10 +14,11 @@ public class CurbController extends Controller {
 
 
     /* 
-        {
+       {
             "curbId": 101,
-            "length": 250.5
-        }   
+            "length": 250.5,
+            "segmentId": 1
+        }  
     
     */
 

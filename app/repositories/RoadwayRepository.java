@@ -29,11 +29,11 @@ public class RoadwayRepository {
         return roadways.remove(roadway);
     }
 
-    // Método para obtener todas las calzadas cuyo segmentId sea igual a la id relativa del segmento al que pertenece
+    // Método para obtener todas las calzadas cuya clave foranea segmentId sea igual a la id del segmento al que pertenece
 
-    public static List<Roadway> findRoadways(Long segmentId) {
+    public static List<Roadway> findRoadways(Long id) {
         return roadways.stream()
-                .filter(roadway -> roadway.getSegmentId().equals(segmentId)) // Filtrar por segmentId
-                .collect(Collectors.toList()); // Recoger las calzadas que cumplan la condición
+                .filter(roadway -> roadway.getSegmentId().equals(id))
+                .collect(Collectors.toList());
     }
 }

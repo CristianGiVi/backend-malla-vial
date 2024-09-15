@@ -29,11 +29,11 @@ public class CurbRepository {
         return curbs.remove(curb);
     }
 
-    // Método para obtener todas las calzadas cuyo segmentId sea igual a la id relativa del segmento al que pertenece
+    // Método para obtener todas las calzadas clave foranea segmentId sea igual a la id del segmento al que pertenece
 
-    public static List<Curb> findCurbs(Long segmentId) {
+    public static List<Curb> findCurbs(Long id) {
         return curbs.stream()
-                .filter(curb -> curb.getSegmentId().equals(segmentId)) 
+                .filter(curb -> curb.getSegmentId().equals(id)) 
                 .collect(Collectors.toList());
     }
 }

@@ -1,7 +1,9 @@
 package services;
 
 import models.Curb;
+import models.Segment;
 import repository.CurbRepository;
+import repository.SegmentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +13,8 @@ public class CurbService {
     // Crear un nuevo bordillo
 
     public Curb createCurb(Curb curb) {
+        Long id = getIdBySegmentId(curb.getSegmentId());
+        curb.setSegmentId(id);
         CurbRepository.addCurb(curb);
         return curb;
     }
@@ -44,8 +48,11 @@ public class CurbService {
     // Eliminar un bordillo
 
     public boolean deleteCurb(Long curbId) {
-        Long id = getIdByCurbId(curbId);
-        return CurbRepository.getCurbs().removeIf(curb -> curb.getId().equals(id));
+       Optional<Curb> curbOpt = getCurbById(curbId);
+        if (curbOpt.isPresent()) {
+        return CurbRepository.removeCurb(curbOpt.get());
+        }
+        return false;
     }
 
     // Obtener ID principal a partir de su id relativa
@@ -61,6 +68,16 @@ public class CurbService {
     // Hallar todos los bordillos que pertenecen a un mismo segmento
 
     public List<Curb> findCurbsBySegmentId(Long segmentId) {
-        return CurbRepository.findCurbs(segmentId);
+        Long id = getIdBySegmentId(segmentId);
+        return CurbRepository.findCurbs(id);
     }
+
+    public Long getIdBySegmentId(Long segmentId) {
+        return SegmentRepository.getSegments().stream()
+                .filter(segment -> segment.getSegmentId().equals(segmentId))
+                .map(Segment::getId)
+                .findFirst()
+                .orElse(0L);
+    }
+    
 }

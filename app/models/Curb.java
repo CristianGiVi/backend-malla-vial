@@ -2,7 +2,7 @@ package models;
 
 public class Curb {
 
-    private static Long counter = 0L; 
+    private static Long curbCounter = 0L; 
 
     private Long id;
     private Long curbId;
@@ -17,7 +17,7 @@ public class Curb {
     }
 
     private Long generateId() {
-        return ++counter;
+        return ++curbCounter;
     }
 
     public Long getSegmentId() {

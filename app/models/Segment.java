@@ -2,7 +2,7 @@ package models;
 
 public class Segment {
 
-    private static Long counter = 0L; 
+    private static Long segmentCounter = 0L; 
 
     private Long id;
     private Long segmentId;
@@ -17,7 +17,7 @@ public class Segment {
     }
 
     private Long generateId() {
-        return ++counter;
+        return ++segmentCounter;
     }
 
     public Long getId() {

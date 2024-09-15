@@ -14,6 +14,7 @@ DELETE  /segment/delete/:id             controllers.SegmentController.deleteSegm
 
 GET     /segmentdetails                  controllers.SegmentController.getAllSegmentDetails()
 
+GET     /segmentdetails/:id                  controllers.SegmentController.getSegmentdetails(id: Long)
 
 
 # Rutas para Calzadas
@@ -27,7 +28,7 @@ PUT     /roadway/update/:id             controllers.RoadwayController.updateRoad
 
 DELETE  /roadway/delete/:id             controllers.RoadwayController.deleteRoadway(id: Long)
 
-GET     /roadwaybysegment/:id           controllers.RoadwayController.getRoadwaysBySegmentId(id: Long)
+GET     /roadwaysbysegment/:id           controllers.RoadwayController.getRoadwaysBySegmentId(id: Long)
 
 
 # Rutas para Bordillos
@@ -41,4 +42,4 @@ PUT     /curb/update/:id                controllers.CurbController.updateCurb(id
 
 DELETE  /curb/delete/:id                controllers.CurbController.deleteCurb(id: Long)
 
-GET     /curbsegment/:id                controllers.CurbController.getCurbsBySegmentId(id: Long)
+GET     /curbsbysegment/:id                controllers.CurbController.getCurbsBySegmentId(id: Long)
